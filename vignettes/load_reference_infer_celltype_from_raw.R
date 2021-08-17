@@ -45,9 +45,9 @@ library(AnnotateCelltypes)
 
 # Parse inputs ------------------------------------------------------------
 
-inf.ref <- "/home/jyeung/projects/AnnotateCelltypes/inst/extdata/prob_mat_PBMC_reference.txt"
-inf.raw <- "/home/jyeung/projects/AnnotateCelltypes/inst/extdata/raw_count_PBMC_test_set.txt"
-outdir <- "/home/jyeung/hub_oudenaarden/jyeung/tmp"
+# inf.ref <- "/home/jyeung/projects/AnnotateCelltypes/inst/extdata/prob_mat_PBMC_reference.txt"
+# inf.raw <- "/home/jyeung/projects/AnnotateCelltypes/inst/extdata/raw_count_PBMC_test_set.txt"
+# outdir <- "/home/jyeung/hub_oudenaarden/jyeung/tmp"
 
 assertthat::assert_that(file.exists(inf.ref))
 assertthat::assert_that(file.exists(inf.raw))
