@@ -42,6 +42,7 @@ if ( args$verbose ) {
 
 library(AnnotateCelltypes)
 
+jstart <- Sys.time()
 
 # Parse inputs ------------------------------------------------------------
 
@@ -49,10 +50,15 @@ library(AnnotateCelltypes)
 # inf.raw <- "/home/jyeung/projects/AnnotateCelltypes/inst/extdata/raw_count_PBMC_test_set.txt"
 # outdir <- "/home/jyeung/hub_oudenaarden/jyeung/tmp"
 
+inf.raw <- args$inraw
+inf.ref <- args$inref
+outdir <- args$outdir
+
 assertthat::assert_that(file.exists(inf.ref))
 assertthat::assert_that(file.exists(inf.raw))
 dir.create(outdir, showWarnings = FALSE)
 assertthat::assert_that(dir.exists(outdir))
+
 
 outlogLmat <- file.path(outdir, "logL_matrix.txt")
 outpredmat <- file.path(outdir, "celltype_predictions.txt")
@@ -71,9 +77,13 @@ mat.raw <- read.table(inf.raw, header = TRUE, sep = "\t", row.names = 1)
 
 # Calculate logLikelihoods ------------------------------------------------
 
-LL.all.ho <- apply(mat.raw, 2, function(jcell){
-  LL <- CalculateMultinomLL(jcell, mat.ref)
-})
+print(paste("Counting loglikelihoods for all cells. N cells=", ncol(mat.raw)))
+
+system.time(
+  LL.all.ho <- apply(mat.raw, 2, function(jcell){
+    LL <- CalculateMultinomLL(jcell, mat.ref)
+  })
+)
 rownames(LL.all.ho) <- colnames(mat.ref)
 
 LL.max.ho <- apply(LL.all.ho, 2, function(jcol){
@@ -85,6 +95,7 @@ LL.max.ho <- apply(LL.all.ho, 2, function(jcol){
 #   softmax(jcol)
 # })
 
+print("Assigning cells to most likely celltype")
 ctype.pred.vec.ho <- factor(rownames(LL.all.ho)[LL.max.ho], levels = rownames(LL.all.ho))
 names(ctype.pred.vec.ho) <- colnames(LL.all.ho)
 
@@ -92,6 +103,10 @@ ctype.pred.dat <- data.frame(cell = names(ctype.pred.vec.ho), ctype_prediction =
 
 # Write outputs -----------------------------------------------------------
 
-
+print("Writing outputs")
 write.table(x = t(LL.all.ho), file = outlogLmat, sep = "\t", quote = FALSE, row.names = TRUE, col.names = NA)
 write.table(x = ctype.pred.dat, file = outpredmat, sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
+print("Done")
+
+print("Total time:")
+print(Sys.time() - jstart)
