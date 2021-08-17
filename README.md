@@ -1,10 +1,10 @@
-* AnnotateCelltypes
+# AnnotateCelltypes
 
-** Installation
+## Installation
 
 devtools::install_github("jakeyeung/AnnotateCelltypes")
 
-** Usage
+## Usage
 
 Check out in the vignette `load_reference_infer_celltype_from_raw.R` for an example of how to load prob mat and raw count mat and output inferred celltypes. 
 
