@@ -2,7 +2,9 @@
 
 ## Installation
 
-devtools::install_github("jakeyeung/AnnotateCelltypes")
+Install using devtools
+
+`devtools::install_github("jakeyeung/AnnotateCelltypes", ref = "main")`
 
 ## Usage
 
