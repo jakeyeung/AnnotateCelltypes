@@ -16,3 +16,6 @@ Check out in the vignette `load_reference_infer_celltype_from_raw.R` for an exam
 
 The vignette `annotate_celltype_setup_example.r` is an example of how to create the probability matrix and also testing that this probability matrix works for annotate new cells from raw counts. 
 
+### Input data
+
+See inst/extdata for example input files
